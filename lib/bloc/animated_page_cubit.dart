@@ -2,15 +2,15 @@ import 'dart:async';
 import 'dart:isolate';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:isolate_animation/bloc/rect_state.dart';
+import 'package:isolate_animation/bloc/animated_page_state.dart';
 import 'package:isolate_animation/bloc/animation_dto.dart';
 
-class RectCubit extends Cubit<RectState> {
+class AnimatedPageCubit extends Cubit<AnimatedPageState> {
   late ReceivePort _receivePort;
   late Isolate _isolate;
   late Capability _capability;
 
-  RectCubit() : super(const RectState()) {
+  AnimatedPageCubit() : super(const AnimatedPageState()) {
     init();
   }
 

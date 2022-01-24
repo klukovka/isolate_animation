@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isolate_animation/animated_rect.dart';
-import 'package:isolate_animation/bloc/rect_cubit.dart';
-import 'package:isolate_animation/bloc/rect_state.dart';
+import 'package:isolate_animation/bloc/animated_page_cubit.dart';
+import 'package:isolate_animation/bloc/animated_page_state.dart';
 
 class AnimatedPage extends StatefulWidget {
   const AnimatedPage({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class AnimatedPage extends StatefulWidget {
 }
 
 class _AnimatedPageState extends State<AnimatedPage> {
-  RectCubit get cubit => context.read<RectCubit>();
+  AnimatedPageCubit get cubit => context.read<AnimatedPageCubit>();
 
   @override
   void dispose() {
@@ -23,7 +23,7 @@ class _AnimatedPageState extends State<AnimatedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<RectCubit, RectState>(
+      body: BlocBuilder<AnimatedPageCubit, AnimatedPageState>(
         builder: (
           context,
           state,
@@ -42,7 +42,7 @@ class _AnimatedPageState extends State<AnimatedPage> {
     );
   }
 
-  TextButton _buildProceedButton(RectState state) {
+  TextButton _buildProceedButton(AnimatedPageState state) {
     return TextButton(
       onPressed:
           state.isAnimated ? cubit.disableAnimation : cubit.enableAnimation,
@@ -52,7 +52,7 @@ class _AnimatedPageState extends State<AnimatedPage> {
     );
   }
 
-  Widget _buildAnimatedRect(RectState state) {
+  Widget _buildAnimatedRect(AnimatedPageState state) {
     return AnimatedRect(
       angle: state.angle,
       side: state.side,
