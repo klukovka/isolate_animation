@@ -33,12 +33,25 @@ class _AnimatedPageState extends State<AnimatedPage> {
               Center(child: _buildAnimatedRect(state)),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: _buildProceedButton(state),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildProceedButton(state),
+                    _buildChangeColorButton(),
+                  ],
+                ),
               ),
             ],
           );
         },
       ),
+    );
+  }
+
+  Widget _buildChangeColorButton() {
+    return TextButton(
+      onPressed: cubit.changeColor,
+      child: const Text('CHANGE COLOR'),
     );
   }
 
@@ -57,6 +70,7 @@ class _AnimatedPageState extends State<AnimatedPage> {
       angle: state.angle,
       side: state.side,
       radius: state.radius,
+      color: state.color,
     );
   }
 }
