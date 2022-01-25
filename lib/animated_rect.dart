@@ -16,7 +16,8 @@ class AnimatedRect extends StatelessWidget {
   Widget build(BuildContext context) {
     return Transform.rotate(
       angle: angle,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 20),
         width: side,
         height: side,
         decoration: BoxDecoration(

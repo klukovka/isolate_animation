@@ -6,38 +6,38 @@ import 'package:isolate_animation/bloc/animated_page_state.dart';
 import 'package:isolate_animation/bloc/animation_dto.dart';
 
 class AnimatedPageCubit extends Cubit<AnimatedPageState> {
-  late ReceivePort _receivePort;
-  late Isolate _isolate;
-  late Capability _capability;
+  late ReceivePort _receivePortAnimation;
+  late Isolate _isolateAnimation;
+  late Capability _capabilityAnimation;
 
   AnimatedPageCubit() : super(const AnimatedPageState()) {
     init();
   }
 
   void init() async {
-    _receivePort = ReceivePort();
-    _isolate = await Isolate.spawn(
+    _receivePortAnimation = ReceivePort();
+    _isolateAnimation = await Isolate.spawn(
         _animate,
         AnimationDto(
-          sendPort: _receivePort.sendPort,
+          sendPort: _receivePortAnimation.sendPort,
           angle: state.angle,
           radius: state.radius,
           side: state.side,
         ));
-    _receivePort.listen(_listenAngle);
+    _receivePortAnimation.listen(_listenAnimation);
   }
 
   void enableAnimation() {
     emit(state.copyWith(isAnimated: true));
-    _isolate.resume(_capability);
+    _isolateAnimation.resume(_capabilityAnimation);
   }
 
   void disableAnimation() {
     emit(state.copyWith(isAnimated: false));
-    _capability = _isolate.pause();
+    _capabilityAnimation = _isolateAnimation.pause();
   }
 
-  void _listenAngle(dynamic animationDto) {
+  void _listenAnimation(dynamic animationDto) {
     emit(state.copyWith(
       angle: animationDto.angle,
       radius: animationDto.radius,
@@ -93,7 +93,7 @@ class AnimatedPageCubit extends Cubit<AnimatedPageState> {
   }
 
   void dispose() {
-    _receivePort.close();
-    _isolate.kill(priority: Isolate.immediate);
+    _receivePortAnimation.close();
+    _isolateAnimation.kill(priority: Isolate.immediate);
   }
 }
